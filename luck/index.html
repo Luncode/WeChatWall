@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>抽奖</title>
+	<link rel="stylesheet" href="css/style.css">
+	</head>
+<body>
+<div class='luck-back'>
+	<div class="luck-content ce-pack-end">
+		<div id="luckuser" class="slotMachine">
+			<div class="slot">
+				<span class="name">昵称</span>
+			</div>
+		</div>
+		<div class="luck-content-btn">
+			<a id="start" onclick="start()">开始</a>
+		</div>
+		<div class="luck-user">
+			<div class="luck-user-title">
+				<span>中奖名单</span>
+			</div>
+			<ul class="luck-user-list"></ul>
+			<div class="luck-user-btn">
+				<a href="#">中奖人</a>
+			</div>
+		</div>
+	</div>
+</div>
+ <div class="container" style="position: absolute;color:#FFFFFF;bottom:10px;right:40%;">
+        <h3>By:Luncode</h3>
+    </div>
+<div>
+    <audio id="bgm" src="" autoplay="autoplay" loop="loop"></audio>
+</div>
+<script src="js/jquery-2.2.1.min.js" type="text/javascript"></script>
+<script>
+		var xinm = new Array('');  //默认头像
+		var phone = new Array('');	//默认昵称
+		var pcount =0;
+		var Lotterynumber = GetQueryString('Lotterynumber'); //设置单次抽奖人数
+		load();
+		function load(){
+			$.ajax({
+			url:'getheadimg.php',
+			type:'GET',
+			success:function(rs){
+				var arrParse = JSON.parse(rs);
+				console.log(arrParse);  
+				xinm=arrParse;
+				pcount= xinm.length;//参加人数
+				$('.luck-user-list').html("");
+			}
+		 });
+
+		$.ajax({
+			url:'getusername.php',
+			type:'GET',
+			success:function(rs){
+				var arrParse = JSON.parse(rs);
+				console.log(arrParse); 
+				phone=arrParse;
+			}			
+		});
+		}
+
+	function GetQueryString(name)
+	{
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if(r!=null)return  unescape(r[2]); return null;
+	}
+
+	//GetQueryString('num');
+$("#bgm")[0].play();
+</script>
+
+<script src="js/Luckdraw.js" type="text/javascript"></script>
+</body>
+</html>
